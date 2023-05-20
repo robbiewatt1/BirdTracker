@@ -1,0 +1,9 @@
+.DS_Store
+image_processing_tests/test_datasets/
+
+.ipynb_checkpoints
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
