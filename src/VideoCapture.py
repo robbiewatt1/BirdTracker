@@ -7,7 +7,7 @@ from queue import Queue
 
 import random
 def test_record():
-    return random.random() < 0.001
+    return random.random() < 0.0001
 
 
 class VideoCapture:
@@ -45,8 +45,13 @@ class VideoCapture:
         self.record = False             # Checks if we are saving the video
         self.record_buffer = Queue()    # Buff containing frames to be saved
 
-    def set_camera_property(self, property_dict):
-        pass
+    def set_camera_property(self, property_kv_list):
+        """
+        Set properties of the camera (e.g. frame rate / resolution)
+        :param property_kv_list: List of key / value pairs for camera settings
+        """
+        for param in property_kv_list:
+            self.vid_cap.set(param[0], param[1])
 
     def start(self):
         """
@@ -70,7 +75,7 @@ class VideoCapture:
 
         self.vid_cap.release()
 
-    def display_frame(self):
+    def display_frame(self, bounding_box=None):
         """
         Function which displays most recent thread from buffer to screen
         """
@@ -87,7 +92,7 @@ class VideoCapture:
                                       (self.frame_shape[1], self.frame_shape[0]
                                        ), True)
 
-        # Add the video buffer tot the record
+        # Add the video buffer to the record
         for frame in self.video_buffer:
             self.record_buffer.put(frame)
 
@@ -127,11 +132,13 @@ if __name__ == "__main__":
     while True:
         vid_cap.display_frame()
 
-        if test_record() and not vid_cap.record:
+        key = cv2.waitKey(1)
+        if key == ord('s') and not vid_cap.record:
             print("start")
-            vid_cap.start_record("./test.avi")
+            vid_cap.start_record("./example.avi")
 
-        if vid_cap.record and test_record():
+        key = cv2.waitKey(1)
+        if vid_cap.record and key == ord('e'):
             print("End")
             vid_cap.end_record()
 
