@@ -2,11 +2,7 @@ from Tracking import Tracking
 from VideoCapture import VideoCapture
 import cv2
 import datetime
-
-class YoloDetector:
-
-    def detect(self, frame):
-        return False, None
+from YoloDetector import YoloDetector
 
 
 def main(disp_stream=False, n_detection_frames=100):
@@ -26,8 +22,7 @@ def main(disp_stream=False, n_detection_frames=100):
     while True:
         # Run detection algorythm every n_detection_frames frames or if
         # tracking has failed but still detected
-        if detection_count == n_detection_frames or (not tracking_status and
-                                                     detection_status):
+        if detection_count == n_detection_frames:
             # run detection
             detection_status, bounding_box = yolo.detect(
                 vid_cap.video_buffer[-1])
@@ -41,7 +36,7 @@ def main(disp_stream=False, n_detection_frames=100):
                     print("Recording stated.")
                     now = datetime.datetime.now()
                     file_name = "./Videos/" + str(now.date()) + "_" + str(
-                        datetime.time()) + ".avi"
+                        now.time()) + ".avi"
                     vid_cap.start_record(file_name)
                     recording = True
 
@@ -49,6 +44,7 @@ def main(disp_stream=False, n_detection_frames=100):
             elif not detection_status and recording:
                 print("Recording ended.")
                 vid_cap.end_record()
+                recording = False
 
             detection_count = 0
         else:
@@ -58,6 +54,10 @@ def main(disp_stream=False, n_detection_frames=100):
         if detection_status:
             tracking_status, bounding_box = tracker.track(
                 vid_cap.video_buffer[-1])
+
+            # If tracking is good then no need for detection
+            if tracking_status:
+                detection_count = 0
 
         # Display the frame
         if disp_stream:

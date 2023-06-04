@@ -24,7 +24,7 @@ class Tracking:
         if not self.init:
             raise Exception("Tracking class has not be initialised.")
 
-        status, bounding_box = self.kcf_tracking.update(frame)
+        status, bounding_box = self.tracker.update(frame)
 
         # add box to image
         if status:
@@ -32,9 +32,6 @@ class Tracking:
             p2 = (int(bounding_box[0] + bounding_box[2]),
                   int(bounding_box[1] + bounding_box[3]))
             cv2.rectangle(frame, p1, p2, (255, 0, 0), 2, 1)
-        else:
-            cv2.putText(frame, "Tracking failure", (100, 80),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
         return status, bounding_box
 
     def set_bounding_box(self, new_frame, new_box):

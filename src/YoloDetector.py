@@ -14,7 +14,9 @@ class YoloDetector():
     
     def detect(self, img):
         """img is a PIL image
-        Returns Bool and tuple of boudning boxes - i.e. True, (xmin, ymin, w, h ) or False, None  """
+        Returns Bool and tuple of boudning boxes - i.e. True,
+         (xmin, ymin, w, h ) or False, None
+        """
         # Get yolo output as pandas dataframe w/: xmin, ymin, xmax, ymax, confidence, class, name
         yolo_output = self.yolo(img)
         yolo_output_pd = yolo_output.pandas().xyxy[0]

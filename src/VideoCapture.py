@@ -5,11 +5,6 @@ from collections import deque
 from queue import Queue
 
 
-import random
-def test_record():
-    return random.random() < 0.0001
-
-
 class VideoCapture:
 
     # Mian class for capturing images from the camera and saving .
@@ -52,6 +47,8 @@ class VideoCapture:
         """
         for param in property_kv_list:
             self.vid_cap.set(param[0], param[1])
+        self.fps = self.vid_cap.get(cv2.CAP_PROP_FPS)
+        print(self.fps)
 
     def start(self):
         """

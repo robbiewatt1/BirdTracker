@@ -2,6 +2,7 @@
 .idea/*
 .DS_Store
 image_processing_tests/test_datasets/
+*yolov5s.pt
 
 .ipynb_checkpoints
 ### Python ###
