@@ -3,6 +3,11 @@ from VideoCapture import VideoCapture
 import cv2
 import datetime
 
+class YoloDetector:
+
+    def detect(self, frame):
+        return False, None
+
 
 def main(disp_stream=False, n_detection_frames=100):
 
@@ -62,7 +67,8 @@ def main(disp_stream=False, n_detection_frames=100):
         key = cv2.waitKey(1)
         if vid_cap.status is False or key == ord('q'):
             break
+    vid_cap.close()
 
 
 if __name__ == "__main__":
-    main()
+    main(True)

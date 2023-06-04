@@ -66,7 +66,7 @@ class VideoCapture:
         while True:
             (self.status, frame) = self.vid_cap.read()
             if self.status is False:
-                print("[Exiting] Can't read any more frames.")
+                print("[Exiting] Video stream status is False.")
                 break
             else:
                 self.video_buffer.append(frame)
@@ -122,6 +122,13 @@ class VideoCapture:
         self.record = False
         self.write_frame_thread.join()
         self.writer.release()
+
+    def close(self):
+        """
+        Ends the video stream class
+        :return:
+        """
+        self.vid_cap.release()
 
 
 if __name__ == "__main__":
